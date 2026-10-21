@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f7f3">
+  <title>{% block title %}Forma — Portfolio Builder{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='share.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="{{ url_for('home') }}"><span class="brand-mark">f.</span><span>forma<span class="brand-period">.</span></span></a>
+    <nav class="topnav" aria-label="Main navigation">
+      <a href="{{ url_for('home') }}#projects">Projects</a>
+      <a href="{{ url_for('home') }}#how-it-works">How it works</a>
+    </nav>
+    <a class="button button-dark top-cta" href="{{ url_for('edit_profile') }}">Customize portfolio <span aria-hidden="true">↗</span></a>
+  </header>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}<div class="flash-wrap" role="status">{% for category, message in messages %}<p class="flash flash-{{ category }}">{{ message }}</p>{% endfor %}</div>{% endif %}
+  {% endwith %}
+  <main>{% block content %}{% endblock %}</main>
+  <footer class="site-footer"><a class="brand" href="{{ url_for('home') }}"><span class="brand-mark">f.</span><span>forma<span class="brand-period">.</span></span></a><span>Make your work feel like you.</span><span>© 2026 Forma</span></footer>
+  <script>
+    document.addEventListener("click", async (event) => {
+      const button = event.target.closest("[data-copy-link]");
+      if (!button) return;
+
+      const link = button.dataset.copyLink;
+      const status = button.closest(".share-card").querySelector(".share-status");
+      try {
+        await navigator.clipboard.writeText(link);
+        status.textContent = "Link copied — ready to share.";
+      } catch (_error) {
+        const field = button.closest(".share-card").querySelector(".share-url");
+        field.focus();
+        field.select();
+        status.textContent = "Select and copy the link above.";
+      }
+    });
+  </script>
+</body>
+</html>

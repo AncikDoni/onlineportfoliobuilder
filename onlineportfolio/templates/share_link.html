@@ -1,0 +1,9 @@
+<div class="share-card">
+  <div class="share-copy">
+    <span class="share-kicker">YOUR PUBLIC PORTFOLIO LINK</span>
+    <label class="share-url-label" for="share-url-{{ share_id }}">Share this link with anyone</label>
+    <input class="share-url" id="share-url-{{ share_id }}" type="url" value="{{ share_url }}" readonly aria-label="Public portfolio link">
+  </div>
+  <button class="button button-dark share-button" type="button" data-copy-link="{{ share_url }}" aria-describedby="share-status-{{ share_id }}"><span aria-hidden="true">⧉</span> Copy link</button>
+  <span class="share-status" id="share-status-{{ share_id }}" aria-live="polite" role="status"></span>
+</div>

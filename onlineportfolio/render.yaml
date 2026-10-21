@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: forma-portfolio
+    runtime: python
+    plan: 0.5c-512mb
+    region: oregon
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    healthCheckPath: /
+    disk:
+      name: portfolio-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: PORTFOLIO_DATABASE
+        value: /var/data/portfolio.db
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ADMIN_PASSWORD
+        sync: false
